@@ -22,6 +22,9 @@ const mainConfig = {
     'app/middleware/container_bindings_middleware.ts',
     'app/middleware/force_json_response_middleware.ts',
     'tests/bootstrap.ts',
+    'dist/**',
+    'build/**',
+    'node_modules/**',
   ],
   plugins: {
     '@typescript-eslint': eslintPluginTypeScript,
@@ -155,16 +158,10 @@ const mainConfig = {
   },
 }
 
-// Configuration pour l'ignorance globale
-// Bug issue : https://github.com/eslint/eslint/issues/17400
-const ignoreConfig = {
-  ignores: ['dist/**', 'build/**', 'node_modules/**'],
-}
-
 /**
  * @type {import("eslint").Linter.Config}
  *
  * Exportation combinée des configurations
  * eslint.config.{js,mjs,cjs} nouvelle syntaxe depuis la version >= 8.57
  */
-export default [mainConfig, ignoreConfig, eslintPluginJSDoc.configs['flat/recommended'], eslintConfigPrettier]
+export default [mainConfig, eslintPluginJSDoc.configs['flat/recommended'], eslintConfigPrettier]
