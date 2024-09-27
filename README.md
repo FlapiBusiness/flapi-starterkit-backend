@@ -8,6 +8,7 @@
 - Docker / DockerCompose (Development-Local)
 - Kubernetes (Development-remote, Staging and Production)
 - Unit / Functional Tests (Japa)
+- MariaDB (Database)
 
 <br /><br /><br /><br />
 
