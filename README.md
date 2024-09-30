@@ -6,7 +6,7 @@
 - Adonis (Framework)
 - CI / CD (Github Actions)
 - Docker / DockerCompose (Development-Local)
-- Kubernetes (Development-remote, Staging and Production)
+- Kubernetes (Development-Remote, Staging and Production)
 - Unit / Functional Tests (Japa)
 - MariaDB (Database)
 
