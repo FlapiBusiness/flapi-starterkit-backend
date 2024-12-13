@@ -42,4 +42,3 @@ router.get('/docs', async (): Promise<string> => {
   // return AutoSwagger.default.scalar("/swagger")
   // return AutoSwagger.default.rapidoc("/swagger", "view"); to use RapiDoc instead (pass "view" default, or "read" to change the render-style)
 })
-
