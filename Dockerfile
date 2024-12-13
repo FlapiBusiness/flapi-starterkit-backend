@@ -5,13 +5,12 @@ WORKDIR /app
 
 COPY package*.json .
 
-RUN npm install
+RUN npm install -g npm@latest && npm install
 
 COPY . .
 
 ENV CHOKIDAR_USEPOLLING=true
 
-# Run migrations, seed data, and start the app
-CMD npm run db:migration:develop && \
-    npm run db:seed && \
+# Delete database, Run migrations, Run seed data, and start the app
+CMD npm run db:fresh && \
     npm run dev

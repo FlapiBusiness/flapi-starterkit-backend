@@ -15,11 +15,14 @@
     "db:seed": "node ace db:seed",
     "db:truncate": "node ace db:truncate",
     "db:wipe": "node ace db:wipe",
+    "db:fresh": "node ace migration:fresh --seed",
+    "swagger:generate": "node ace swagger:docs:generate",
     "lint": "npm run lint:prettier && npm run lint:eslint && npm run lint:ts",
     "lint:prettier": "prettier --check .",
     "lint:ts": "tsc --noEmit",
     "lint:eslint": "eslint .",
     "lint:fix": "prettier --write --list-different . && npm run lint:prettier --fix && npm run lint:eslint --fix",
+    "postbuild": "npm run swagger:generate && cp -a swagger.yml build/",
     "prepare": "husky"
   },
   "dependencies": {
@@ -28,6 +31,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.5.1",
     "@vinejs/vine": "^3.0.0",
+    "adonis-autoswagger": "^3.64.0",
     "luxon": "^3.5.0",
     "mysql2": "^3.11.5",
     "reflect-metadata": "^0.2.2"
