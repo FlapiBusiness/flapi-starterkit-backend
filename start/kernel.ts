@@ -46,4 +46,3 @@ export const middleware = router.named({
   roleAuth: () => import('#middleware/role_auth_middleware'),
   health: () => import('#middleware/health_middleware'),
 })
-
