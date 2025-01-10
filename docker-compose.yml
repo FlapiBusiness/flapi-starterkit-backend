@@ -1,7 +1,7 @@
 services:
   adonis:
     container_name: adonis
-    image: flapi/cms-hub-backend:develop
+    image: flapi/customername-projectname-backend:develop
     restart: always
     build:
       context: .
@@ -23,7 +23,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: flapi-cms-hub_develop
+      MYSQL_DATABASE: customerName-projectName_develop
       MYSQL_USER: testuser
       MYSQL_PASSWORD: testpassword
     ports:
