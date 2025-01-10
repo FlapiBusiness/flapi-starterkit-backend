@@ -24,17 +24,11 @@ COPY package*.json .
 # Define build arguments for secrets
 ARG DB_USER
 ARG DB_PASSWORD
-ARG AWS_ACCESS_KEY_ID
-ARG AWS_SECRET_ACCESS_KEY
-ARG O2SWITCH_API_TOKEN
-ARG O2SWITCH_DATABASE_USERNAME
-ARG O2SWITCH_DATABASE_PASSWORD
-ARG GITHUB_PERSONAL_ACCESS_TOKEN
 ARG MAILJET_API_SECRET_KEY
 ARG MAILJET_API_KEY
 
 # Set environment variables
-ENV FRONTEND_APP_BASE_URL="https://staging.example.flapi.org" \
+ENV FRONTEND_APP_BASE_URL="https://dev.example.flapi.org" \
     API_USER_TOKEN_EXPIRATION="1 days" \
     API_USER_TOKEN_SECRET_LENGTH=128 \
     HASH_DRIVER=argon \
@@ -43,12 +37,12 @@ ENV FRONTEND_APP_BASE_URL="https://staging.example.flapi.org" \
     HOST=0.0.0.0 \
     LOG_LEVEL=trace \
     APP_KEY=VyNbUsi5FgpKrhVz-MMWJfe0nH0KnRZC \
-    NODE_ENV=staging \
+    NODE_ENV=development-remote \
     DB_HOST=109.234.165.225 \
     DB_PORT=3306 \
     DB_USER=${DB_USER} \
     DB_PASSWORD=${DB_PASSWORD} \
-    DB_DATABASE_NAME=reco5282_customerName-projectName_staging \
+    DB_DATABASE_NAME=reco5282_customerName-projectName_development-remote \
     DB_DEBUG=true \
     HEALTH=test \
     MAILJET_API_SECRET_KEY=${MAILJET_API_SECRET_KEY} \

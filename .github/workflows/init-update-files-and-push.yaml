@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       customerName:
-        description: "Nom du client"
+        description: 'Nom du client'
         required: true
       projectName:
-        description: "Nom du projet"
+        description: 'Nom du projet'
         required: true
       subdomain:
-        description: "Sous domaine à utiliser"
+        description: 'Sous domaine à utiliser'
         required: true
 
 permissions:
@@ -36,9 +36,10 @@ jobs:
 
       - name: Modify files
         run: |
-          sed -i "s/nomduclient-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" k8s/**/*.yaml
+          sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" k8s/**/*.yaml
+          sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" docker/**/Dockerfile
           sed -i "s/example/${{ inputs.subdomain }}/g" k8s/**/*.yaml
-          sed -i "s/example/${{ inputs.subdomain }}/g" .env.*
+          sed -i "s/example/${{ inputs.subdomain }}/g" docker/**/Dockerfile
 
       - name: Commit changes
         run: |

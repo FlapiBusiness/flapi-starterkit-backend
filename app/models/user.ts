@@ -1,60 +1,103 @@
-import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
-import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { DateTime } from 'luxon'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import env from '#start/env'
+import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { Hash } from '@adonisjs/hash'
+import { compose } from '@adonisjs/core/helpers'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import UserRole from '#models/user_role'
 
 /**
  * Fonction de mixin pour la gestion de l'authentification.
+ * Doc : https://docs.adonisjs.com/guides/authentication/verifying-user-credentials
  */
-const AuthFinder: ReturnType<typeof withAuthFinder> = withAuthFinder(() => hash.use('scrypt'), {
+const AuthFinder: ReturnType<typeof withAuthFinder> = withAuthFinder((): Hash => hash.use(), {
   uids: ['email'],
   passwordColumnName: 'password',
 })
 
 /**
- * Modèle représentant les utilisateurs de l'application.
+ * The User model represents a user of the application.
  */
 export default class User extends compose(BaseModel, AuthFinder) {
   /**
-   * ID de l'utilisateur
+   * The unique identifier for the user.
    */
   @column({ isPrimary: true })
   declare public id: number
 
   /**
-   * Nom complet de l'utilisateur
+   * The role ID associated with the user.
    */
   @column()
-  declare public fullName: string | null
+  declare public roleId: number
 
   /**
-   * Adresse e-mail de l'utilisateur
+   * The relationship to the Role model.
+   */
+  @belongsTo((): typeof UserRole => UserRole)
+  declare public role: BelongsTo<typeof UserRole>
+
+  /**
+   * The last name of the user.
+   */
+  @column()
+  declare public lastname: string
+
+  /**
+   * The first name of the user.
+   */
+  @column()
+  declare public firstname: string
+
+  /**
+   * The email address of the user. Must be unique.
    */
   @column()
   declare public email: string
 
   /**
-   * Mot de passe (non sérialisé)
+   * The hashed password of the user.
+   * This field is hidden in serialized responses.
    */
   @column({ serializeAs: null })
   declare public password: string
 
   /**
-   * Date de création
+   * Whether the user account is active.
+   */
+  @column()
+  declare public isActive: boolean
+
+  /**
+   * The 6-digit active code for the user.
+   */
+  @column()
+  declare public activeCode: number
+
+  /**
+   * The timestamp when the user was created.
    */
   @column.dateTime({ autoCreate: true })
   declare public createdAt: DateTime
 
   /**
-   * Date de mise à jour
+   * The timestamp when the user was last updated.
    */
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare public updatedAt: DateTime | null
+  declare public updatedAt: DateTime
 
   /**
-   * Tokens d'accès pour l'utilisateur
+   * The access token provider for the user model.
+   * This provider is used to generate and validate access tokens for the user.
    */
-  public static accessTokens = DbAccessTokensProvider.forModel(User)
+  public static accessTokens: DbAccessTokensProvider<typeof User> = DbAccessTokensProvider.forModel(User, {
+    expiresIn: env.get('API_USER_TOKEN_EXPIRATION'),
+    prefix: 'oat_',
+    table: 'auth_access_tokens',
+    type: 'auth_token',
+    tokenSecretLength: env.get('API_USER_TOKEN_SECRET_LENGTH'),
+  })
 }

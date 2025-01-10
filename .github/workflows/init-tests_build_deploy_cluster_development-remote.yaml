@@ -1,4 +1,4 @@
-name: tests_build_deploy_cluster_development
+name: tests_build_deploy_cluster_development-remote
 
 on:
   push:
@@ -42,8 +42,8 @@ jobs:
           timeout: '60'
           workdir: '.'
 
-      - name: Japa - Run tests unit
-        run: npm run test:staging-prod
+      - name: Japa - Run Unit Tests and Functional Tests
+        run: npm run test:all
 
       - name: Shutdown Docker Compose
         run: |
@@ -59,13 +59,13 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker/staging/Dockerfile
+          file: ./docker/development-remote/Dockerfile
           push: true
-          tags: corentin35/${{ github.event.client_payload.customerName }}-${{ github.event.client_payload.projectName }}-backend:staging-${{ github.sha }}
+          tags: corentin35/${{ github.event.client_payload.customerName }}-${{ github.event.client_payload.projectName }}-backend:develop-${{ github.sha }}
 
       - name: Replace image tag in deployment.yaml for Kubernetes
         run: |
-          sed -i 's/\${TAG_VERSION}/'${{ github.sha }}'/g' k8s/staging/deployment.yaml
+          sed -i 's/\${TAG_VERSION}/'${{ github.sha }}'/g' k8s/development-remote/deployment.yaml
 
       - name: Connect to the cluster K3S for deploy
         uses: actions-hub/kubectl@master
@@ -73,9 +73,9 @@ jobs:
           KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
         with:
           args: |
-            apply -f k8s/staging/namespace.yaml 
-            -f k8s/staging/certificate.yaml 
-            -f k8s/staging/docker-registry-secret.yaml 
-            -f k8s/staging/deployment.yaml 
-            -f k8s/staging/ingress.yaml 
-            -f k8s/staging/service.yaml
+            apply -f k8s/development-remote/namespace.yaml 
+            -f k8s/development-remote/certificate.yaml 
+            -f k8s/development-remote/docker-registry-secret.yaml 
+            -f k8s/development-remote/deployment.yaml 
+            -f k8s/development-remote/ingress.yaml 
+            -f k8s/development-remote/service.yaml

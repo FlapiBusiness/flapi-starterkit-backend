@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-customerName-projectName-backend-deployment
-  namespace: staging-customerName-projectName-backend
+  name: dev-customerName-projectName-backend-deployment
+  namespace: dev-customerName-projectName-backend
   labels:
-    app: staging-customerName-projectName-backend
+    app: dev-customerName-projectName-backend
 spec:
   selector:
     matchLabels:
-      app: staging-customerName-projectName-backend
+      app: dev-customerName-projectName-backend
   template:
     metadata:
       labels:
-        app: staging-customerName-projectName-backend
+        app: dev-customerName-projectName-backend
     spec:
       containers:
-        - name: prod-customerName-projectName-backend
-          image: corentin35/customerName-projectName-backend:staging-${TAG_VERSION}
+        - name: dev-customerName-projectName-backend
+          image: corentin35/customerName-projectName-backend:develop-${TAG_VERSION}
           imagePullPolicy: Always
           ports:
             - containerPort: 3333

@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prod-hub-flapi-backend-deployment
-  namespace: prod-hub-flapi-backend
+  name: prod-customerName-projectName-backend-deployment
+  namespace: prod-customerName-projectName-backend
   labels:
-    app: prod-hub-flapi-backend
+    app: prod-customerName-projectName-backend
 spec:
   replicas: 3
   strategy:
@@ -14,15 +14,15 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: prod-hub-flapi-backend
+      app: prod-customerName-projectName-backend
   template:
     metadata:
       labels:
-        app: prod-hub-flapi-backend
+        app: prod-customerName-projectName-backend
     spec:
       containers:
-        - name: prod-hub-flapi-backend
-          image: corentin35/hub-flapi-backend:${TAG_VERSION}
+        - name: prod-customerName-projectName-backend
+          image: corentin35/customerName-projectName-backend:${TAG_VERSION}
           imagePullPolicy: Always
           ports:
             - containerPort: 3333
