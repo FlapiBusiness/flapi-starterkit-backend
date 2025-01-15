@@ -21,6 +21,7 @@ WORKDIR /app
 # Copy the build from the previous stage
 COPY --from=builder /app/build /app
 COPY --from=builder /app/.env.development-remote /app
+COPY --from=builder /app/.env.keys /app
 
 # Install production dependencies only
 RUN npm ci --omit="dev" --ignore-scripts
