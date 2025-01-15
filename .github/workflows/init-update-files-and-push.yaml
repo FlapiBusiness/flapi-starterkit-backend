@@ -41,9 +41,13 @@ jobs:
           sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" docker-compose.yml
           sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" .env.*
           sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" .env
+          sed -i "s/customerName projectName/${{ inputs.customerName }} ${{ inputs.projectName }}/g" README.md
+          sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" README.md
           sed -i "s/customername-projectname/${{ inputs.customerName }}-${{ inputs.projectName }}/g" docker-compose.yml
           sed -i "s/example/${{ inputs.subdomain }}/g" k8s/**/*.yaml
-          sed -i "s/example/${{ inputs.subdomain }}/g" docker/**/Dockerfile
+          sed -i "s/example/${{ inputs.subdomain }}/g" .env.*
+          sed -i "s/example/${{ inputs.subdomain }}/g" config/cors.ts
+          sed -i "s/example/${{ inputs.subdomain }}/g" README.md
 
       - name: Commit changes
         run: |
