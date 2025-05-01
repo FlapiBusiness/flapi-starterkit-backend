@@ -15,7 +15,7 @@ spec:
         app: staging-customerName-projectName-backend
     spec:
       containers:
-        - name: prod-customerName-projectName-backend
+        - name: staging-customerName-projectName-backend
           image: corentin35/customerName-projectName-backend:staging-${TAG_VERSION}
           imagePullPolicy: Always
           ports:

@@ -1,9 +1,6 @@
 name: tests_build_deploy_cluster_development-remote
 
 on:
-  push:
-    branches:
-      - develop
   repository_dispatch:
     types: [deploy-to-init-project]
   workflow_dispatch:
@@ -59,19 +56,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Load env variables
-        id: load-env
-        run: |
-          echo "customer=$(grep CUSTOMER_NAME .env | cut -d '=' -f2 | tr -d '\r')" >> $GITHUB_OUTPUT
-          echo "project=$(grep PROJECT_NAME .env | cut -d '=' -f2 | tr -d '\r')" >> $GITHUB_OUTPUT
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./docker/development-remote/Dockerfile
           push: true
-          tags: corentin35/${{ steps.load-env.outputs.customer }}-${{ steps.load-env.outputs.project }}-backend:develop-${{ github.sha }}
+          tags: corentin35/${{ github.event.client_payload.customerName }}-${{ github.event.client_payload.projectName }}-backend:develop-${{ github.sha }}
 
       - name: Replace image tag in deployment.yaml for Kubernetes
         run: |

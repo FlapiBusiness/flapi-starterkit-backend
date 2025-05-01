@@ -57,9 +57,6 @@ jobs:
           sed -i "s/example/${{ inputs.subdomain }}/g" .env.*
           sed -i "s/example/${{ inputs.subdomain }}/g" config/cors.ts
           sed -i "s/example/${{ inputs.subdomain }}/g" README.md
-          grep -q '^CUSTOMER_NAME=' .env || echo -e "\nCUSTOMER_NAME=${{ inputs.customerName }}" >> .env
-          grep -q '^PROJECT_NAME=' .env || echo -e "\nPROJECT_NAME=${{ inputs.projectName }}" >> .env
-          grep -q '^SUBDOMAIN=' .env || echo -e "\nSUBDOMAIN=${{ inputs.subdomain }}" >> .env
 
       - name: Commit changes
         run: |
@@ -80,3 +77,8 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           event-type: deploy-to-init-project
+          client-payload: |
+            {
+              "customerName": "${{ inputs.customerName }}",
+              "projectName": "${{ inputs.projectName }}"
+            }
