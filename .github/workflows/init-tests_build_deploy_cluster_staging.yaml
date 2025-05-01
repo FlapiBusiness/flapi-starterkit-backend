@@ -59,6 +59,12 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Debug Docker image tag
+        run: |
+          echo "customerName: ${{ github.event.client_payload.customerName }}"
+          echo "projectName: ${{ github.event.client_payload.projectName }}"
+          echo "TAG: corentin35/${{ github.event.client_payload.customerName }}-${{ github.event.client_payload.projectName }}-backend:staging-${{ github.sha }}"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
