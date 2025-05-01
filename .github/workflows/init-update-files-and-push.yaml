@@ -57,6 +57,9 @@ jobs:
           sed -i "s/example/${{ inputs.subdomain }}/g" .env.*
           sed -i "s/example/${{ inputs.subdomain }}/g" config/cors.ts
           sed -i "s/example/${{ inputs.subdomain }}/g" README.md
+          grep -q '^CUSTOMER_NAME=' .env || echo "CUSTOMER_NAME=${{ inputs.customerName }}" >> .env
+          grep -q '^PROJECT_NAME=' .env || echo "PROJECT_NAME=${{ inputs.projectName }}" >> .env
+          grep -q '^SUBDOMAIN=' .env || echo "SUBDOMAIN=${{ inputs.subdomain }}" >> .env
 
       - name: Commit changes
         run: |
@@ -72,25 +75,8 @@ jobs:
           git reset --hard origin/develop
           git push origin staging --force
 
-      - name: Set client payload
-        id: set-payload
-        run: |
-          echo "payload=$(jq -nc \
-            --arg customerName '${{ inputs.customerName }}' \
-            --arg projectName '${{ inputs.projectName }}' \
-            '{customerName: $customerName, projectName: $projectName}')" >> $GITHUB_OUTPUT
-
-      - name: Debug payload
-        run: echo "${{ steps.set-payload.outputs.payload }}"
-
-      - name: Print customerName and projectName
-        run: |
-          echo "Customer Name: ${{ inputs.customerName }}"
-          echo "Project Name: ${{ inputs.projectName }}"
-
       - name: Trigger Deploy to Staging Workflow
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT_TOKEN }}
           event-type: deploy-to-init-project
-          client-payload: ${{ steps.set-payload.outputs.payload }}
