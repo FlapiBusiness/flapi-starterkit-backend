@@ -16,7 +16,7 @@ jobs:
       - name: Decode .env.keys file
         run: |
           echo "${{ secrets.ENCRYPTED_ENV_KEYS_ADONISJS }}" | base64 --decode > .env.keys
-          
+
       - name: Get latest release tag
         id: previoustag
         uses: WyriHaximus/github-action-get-previous-tag@v1

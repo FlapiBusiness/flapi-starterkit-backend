@@ -106,8 +106,10 @@ git clone git@github.com:FlapiBusiness/flapi-customerName-projectName-backend.gi
 <br /><br /><br /><br />
 
 ## 🔄 Cycle Development
+
 1. Open Docker Desktop
 2. Run command :
+
 ```bash
    # Start the development server on http://localhost:3555 (AdonisJS)
    # Start the development server on http://localhost:7450 (PhpMyAdmin)
@@ -124,6 +126,7 @@ git clone git@github.com:FlapiBusiness/flapi-customerName-projectName-backend.gi
 ### **General Tests:**
 
 1. **Run all tests (unit and functional):**
+
    ```bash
    npm run test:all
    ```
@@ -138,6 +141,7 @@ git clone git@github.com:FlapiBusiness/flapi-customerName-projectName-backend.gi
 ### **Unit Tests:**
 
 1. **Run only unit tests:**
+
    ```bash
    npm run test:unit
    ```
@@ -152,6 +156,7 @@ git clone git@github.com:FlapiBusiness/flapi-customerName-projectName-backend.gi
 ### **Functional Tests:**
 
 1. **Run only functional tests:**
+
    ```bash
    npm run test:functional
    ```
@@ -162,8 +167,6 @@ git clone git@github.com:FlapiBusiness/flapi-customerName-projectName-backend.gi
    ```
 
 <br /><br /><br /><br />
-
-
 
 ## 🔑 **Gestion des Secrets d'Environnement**
 
@@ -189,6 +192,7 @@ Ce projet utilise le package `@foadonis/crypt` pour stocker et gérer de manièr
 
 1. **Déchiffrer une variable d'environnement :**
    Utilisez les scripts npm suivants en fonction de l'environnement désiré :
+
    ```bash
    # .env
    npm run env:get:dev -- <VARIABLE_NAME>
@@ -208,6 +212,7 @@ Ce projet utilise le package `@foadonis/crypt` pour stocker et gérer de manièr
 
 2. **Chiffrer et stocker une nouvelle variable d'environnement :**
    Utilisez les scripts npm suivants en fonction de l'environnement désiré :
+
    ```bash
    # .env
    npm run env:set:dev -- <VARIABLE_NAME> "<VALUE>"
@@ -234,7 +239,6 @@ Ce projet utilise le package `@foadonis/crypt` pour stocker et gérer de manièr
 ### **Accès sécurisé aux clés :**
 
 Les clés privées réelles sont stockées de manière sécurisée dans **1Password**, dans le coffre nommé **`.env.keys (Flapi - AdonisJS)`**.
-
 
 <br /><br /><br /><br />
 
