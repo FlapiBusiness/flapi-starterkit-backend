@@ -72,6 +72,17 @@ jobs:
           git reset --hard origin/develop
           git push origin staging --force
 
+      - name: Set client payload
+        id: set-payload
+        run: |
+          echo "payload=$(jq -nc \
+            --arg customerName '${{ inputs.customerName }}' \
+            --arg projectName '${{ inputs.projectName }}' \
+            '{customerName: $customerName, projectName: $projectName}')" >> $GITHUB_OUTPUT
+
+      - name: Debug payload
+        run: echo "${{ steps.set-payload.outputs.payload }}"
+
       - name: Print customerName and projectName
         run: |
           echo "Customer Name: ${{ inputs.customerName }}"
@@ -82,8 +93,4 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           event-type: deploy-to-init-project
-          client-payload: >
-            ${{ toJson({
-              customerName: inputs.customerName,
-              projectName: inputs.projectName
-            }) }}
+          client-payload: ${{ steps.set-payload.outputs.payload }}
