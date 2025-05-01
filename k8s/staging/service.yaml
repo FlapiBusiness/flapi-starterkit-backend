@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: prod-customerName-projectName-backend-service
-  namespace: prod-customerName-projectName-backend
+  name: staging-customerName-projectName-backend-service
+  namespace: staging-customerName-projectName-backend
 spec:
   ports:
     - port: 3333
       targetPort: 3333
   selector:
-    app: prod-customerName-projectName-backend
+    app: staging-customerName-projectName-backend
