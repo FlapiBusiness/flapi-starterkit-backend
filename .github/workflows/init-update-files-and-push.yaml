@@ -12,6 +12,15 @@ on:
       subdomain:
         description: 'Sous domaine à utiliser'
         required: true
+      categoryApp:
+        description: 'Categorie de l application'
+        required: false
+      longDescriptionApp:
+        description: 'Description longue de l application'
+        required: false
+      shortDescriptionApp:
+        description: 'Description courte de l application'
+        required: false
 
 permissions:
   contents: write
