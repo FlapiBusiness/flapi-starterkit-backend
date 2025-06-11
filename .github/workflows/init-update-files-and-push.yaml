@@ -43,6 +43,11 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
           git remote -v
 
+      - name: Extract subdomain base
+        id: prepare
+        run: |
+          echo "SUBDOMAIN_BASE=$(echo '${{ inputs.subdomain }}' | sed 's/\..*//')" >> $GITHUB_OUTPUT
+
       - name: Modify files
         run: |
           sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" k8s/**/*.yaml
@@ -53,10 +58,10 @@ jobs:
           sed -i "s/customerName projectName/${{ inputs.customerName }} ${{ inputs.projectName }}/g" README.md
           sed -i "s/customerName-projectName/${{ inputs.customerName }}-${{ inputs.projectName }}/g" README.md
           sed -i "s/customername-projectname/${{ inputs.customerName }}-${{ inputs.projectName }}/g" docker-compose.yml
-          sed -i "s/example/${{ inputs.subdomain }}/g" k8s/**/*.yaml
-          sed -i "s/example/${{ inputs.subdomain }}/g" .env.*
-          sed -i "s/example/${{ inputs.subdomain }}/g" config/cors.ts
-          sed -i "s/example/${{ inputs.subdomain }}/g" README.md
+          sed -i "s/example/${{ steps.prepare.outputs.SUBDOMAIN_BASE }}/g" k8s/**/*.yaml
+          sed -i "s/example/${{ steps.prepare.outputs.SUBDOMAIN_BASE }}/g" .env.*
+          sed -i "s/example/${{ steps.prepare.outputs.SUBDOMAIN_BASE }}/g" config/cors.ts
+          sed -i "s/example/${{ steps.prepare.outputs.SUBDOMAIN_BASE }}/g" README.md
           
       - name: Commit changes
         run: |
